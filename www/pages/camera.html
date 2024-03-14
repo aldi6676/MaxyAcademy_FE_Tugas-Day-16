@@ -1,0 +1,107 @@
+<template>
+    <div class="page" data-name="camera">
+        <div class="navbar">
+            <div class="navbar-bg"></div>
+            <div class="navbar-inner sliding">
+                <div class="title">Camera</div>
+            </div>
+        </div>
+        <div class="page-content">
+            <div class="camera-container">
+                <div class="video-container">
+                    <video id="video">Video stream not available</video>
+                </div>
+                <div class="button-container">
+                    <button id="startbutton" class="button button-fill" @click=${takePhoto}>Take Photo</button>
+                </div>
+                <div class="photo-container">
+                    <canvas id="canvas"></canvas>
+                    <div id="photo" class="photo"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+    export default (props, { $store }) => {
+        let video = null;
+        let canvas = null;
+        let photo = null;
+
+        const takePhoto = () => {
+            canvas = document.getElementById('canvas');
+            photo = document.getElementById('photo');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            canvas.getContext('2d').drawImage(video, 0, 0);
+
+            // Tetapkan gambar baru
+            const newImage = document.createElement('img');
+            newImage.src = canvas.toDataURL('image/webp');
+            photo.innerHTML = ''; // Menghapus foto sebelumnya
+            photo.appendChild(newImage);
+        }
+
+        const startup = () => {
+            navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+                .then(function (stream) {
+                    video = document.getElementById('video');
+                    video.srcObject = stream;
+                    video.play();
+                }).catch((err) => {
+                    console.log("An error occured! " + err);
+                });
+        }
+
+        if (navigator.mediaDevices) {
+            startup();
+        } else {
+            alert("Browser doesn't support media devices.");
+        }
+
+        return $render;
+    }
+</script>
+
+<style>
+    .camera-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .page-content {
+        margin-top: 38px;
+    }
+
+    .video-container,
+    .button-container,
+    .photo-container {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .button-container {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        max-width: 150px;
+    }
+
+    video {
+        max-width: 100%;
+        max-height: 100%;
+    }
+
+    #photo img {
+        max-width: 100%;
+        max-height: 100%;
+    }
+
+    canvas {
+        display: none;
+    }
+</style>

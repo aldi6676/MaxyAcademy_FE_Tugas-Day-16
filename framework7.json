@@ -1,0 +1,31 @@
+{
+  "cwd": "E:\\Semester 6\\Maxy Academy\\Day 16\\Tugas Day 16",
+  "type": [
+    "web",
+    "cordova"
+  ],
+  "name": "App Day16",
+  "pkg": "io.appday16.app",
+  "framework": "core",
+  "template": "tabs",
+  "bundler": false,
+  "cordova": {
+    "folder": "cordova",
+    "platforms": [
+      "ios",
+      "android"
+    ],
+    "plugins": [
+      "cordova-plugin-statusbar",
+      "cordova-plugin-keyboard",
+      "cordova-plugin-splashscreen"
+    ]
+  },
+  "theming": {
+    "customColor": false,
+    "color": "#007aff",
+    "darkMode": false,
+    "iconFonts": true
+  },
+  "customBuild": false
+}

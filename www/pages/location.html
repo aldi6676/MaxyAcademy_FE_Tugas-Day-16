@@ -1,0 +1,36 @@
+<template>
+    <div class="page" data-name="location">
+        <div class="navbar">
+            <div class="navbar-bg"></div>
+            <div class="navbar-inner sliding">
+                <div class="title" >Location</div>
+            </div>
+        </div>
+        <div class="page-content" style="display: flex; justify-content: center; align-items: center; height: 100vh;">
+            <div class="lokasi" id="lokasi">
+                <p class="locate">
+                    Click the button to see your location
+                </p>
+                <button id="tombolLokasi" class="button button-fill" style="max-width: 200px; margin: 0 auto;" @click="${findMe}">Get Location</button>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+    export default (props, {$store}) => {
+        const findMe = () => {
+            if(navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+            }
+            else {
+                alert ("Browser tidak mendukung")
+            }
+        }
+        const showPosition = (position) => {
+            var lokasi = document.getElementById("lokasi");
+            lokasi.innerHTML = "Latitude: " + position.coords.latitude + "<br>Longitude: " +position.coords.longitude;
+        }
+        return $render;
+    }
+</script>
